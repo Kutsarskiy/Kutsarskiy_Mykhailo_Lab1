@@ -1,8 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Collections.Generic; 
 using System.Linq;
 using Newtonsoft.Json;
-using System.IO;
+using System.IO;   
 
 namespace Lb1
 {
@@ -10,24 +10,25 @@ namespace Lb1
     public class Massive
     {
 
-        public int UniqNum;
-        static public int size;
-        public int Size = size;
-        public int[] Mass = new int[size];
+        private int UniqNum;
+        private List<int> RandOrder;
+        public int Size { get; set; }
+        public List<int> Mass { get; set; }
+      
 
         public Massive(int size)
         {
-            Massive.size = size;
+            Size = size;
+            Mass = new List<int>();
         }
 
 
         public void RandomNums()
         {
-            Random random = new Random();
-
-            for (int i = 0; i < size; i++)
+            Random random = new();
+            for (int i = 0; i < Size; i++)
             {
-                Mass[i] = random.Next(-15, 15);
+                Mass.Add(random.Next(-15, 15));
             }
 
             Console.Write($"Массив: {string.Join(" ", Mass)} ");
@@ -37,20 +38,11 @@ namespace Lb1
         public void RandomOrder()
         {
             Random randNum = new();
-            int f = 1;
-            int k = randNum.Next(0, 30);
-            for (int i = 0; i < k; i++) 
-            {
-                int j = Mass[f];
-                Mass[f] = Mass[f - 1];
-                Mass[f - 1] = j;
-                f++;
-                if (f == size - 1)
-                    f = 1;
-            }
+            RandOrder = new List<int>();
+            RandOrder = Mass.OrderBy(x => randNum.Next()).ToList();
 
             Console.Write("Случайный порядок: ");
-            Console.WriteLine(string.Join(" ", Mass));
+            Console.WriteLine(string.Join(" ", RandOrder));
 
         }
 
@@ -102,11 +94,10 @@ namespace Lb1
             string json = File.ReadAllText("/Users/Kutsarskiy/source/repos/Lab 1/file.json");
             var massive = JsonConvert.DeserializeObject<Massive>(json);
             int size = massive.Size;
-            return massive;
+            return new Massive(size);
         }
 
 
         ~Massive() { }
     }
 }
-

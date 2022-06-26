@@ -23,7 +23,6 @@ namespace Lb1
                         option = 1;
                         Console.Write("\nВведите размер массива: ");
                         int size = Convert.ToInt32(Console.ReadLine());
-                        Massive.size = size; 
                         Massive massive = new(size);
                         massive.RandomNums();
                         massive.PrintOutput();
